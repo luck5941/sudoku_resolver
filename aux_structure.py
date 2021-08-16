@@ -50,7 +50,7 @@ class OrderQueue(Queue):
         super(OrderQueue, self).__init__()
 
     def order_enqueue(self, state, parent=None, heuristic = lambda state : 0):
-        nn = Node(State, parent)
+        nn = Node(state, parent)
         if self.length == 0:
             self.header = nn
             self.peak = nn
@@ -61,9 +61,31 @@ class OrderQueue(Queue):
             evaluate_f = f(state)
 
             while f(current.state) < evaluate_f and current.next is not None:
-                if current.state = state: return
+                if current.state == state: return
                 last = current
                 current = current.next
+
+            if current.next is None:
+                self.peak.next = nn
+                self.peak = nn
+            else:
+                nn.next = current
+                if current == self.header: self.header = nn
+                else: last.next = nn
+
+
+        self.length+=1
+        current = nn
+
+        while current.next is not None:
+            if current.next.state == state:
+                if current.next.next is None: self.peak = current
+                current.next = current.next.next
+                self.length -=1
+                break
+            current = current.next
+        return self.length
+
 
 
 

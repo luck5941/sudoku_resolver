@@ -1,9 +1,9 @@
-from aux_structures import OrderQueue
+from aux_structure import OrderQueue
 from problem_definition import Action
 from heuristics import *
 
 class AStar:
-    def __init__(self, sh = 2):
+    def __init__(self, sh = 1):
         """Constructor de A star. Define la lista abierta con una cola y la lista cerrada con una lista de python.
         La heuristica se escoge en base a una lista predefinida
         sh  en indice de la heuristica a emplear (default 2 || h(state) = 0)
@@ -13,7 +13,7 @@ class AStar:
         
         self.open = OrderQueue()
         self.close = list()
-        heuristics = (heuristic_1, heuristic_2, lambda ns : 0)
+        heuristics = (heuristic_1,lambda ns : 0)
         if 0 <= sh < len(heuristics):
             self.heuristic = heuristics[sh]
         else:
@@ -31,12 +31,14 @@ class AStar:
         nodos_exp = 0
         success = False
         self.open.order_enqueue(start_node)
+        print(self.open.length)
         
         #la definicion de Action se ha realizado en el fichero problem_definition.py
         ac = Action()
         
        
         while self.open.length > 0 and not success:
+            print(f"Lista de nodos por abrir {self.open.length}")
             nn = self.open.dequeue()
             nodos_exp +=1
 
