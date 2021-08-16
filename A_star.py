@@ -13,7 +13,7 @@ class AStar:
         
         self.open = OrderQueue()
         self.close = list()
-        heuristics = (heuristic_1,lambda ns : 0)
+        heuristics = (heuristic_1, heuristic_2, heuristic_3, lambda ns : 0)
         if 0 <= sh < len(heuristics):
             self.heuristic = heuristics[sh]
         else:
@@ -33,14 +33,14 @@ class AStar:
         self.open.order_enqueue(start_node)
         print(self.open.length)
         
-        #la definicion de Action se ha realizado en el fichero problem_definition.py
+        # la definicion de Action se ha realizado en el fichero problem_definition.py
         ac = Action()
         
        
         while self.open.length > 0 and not success:
-            print(f"Lista de nodos por abrir {self.open.length}")
             nn = self.open.dequeue()
-            nodos_exp +=1
+            nodos_exp += 1
+            print(f"{self.open.length} {nn.state.sudoku.get_missing}")
 
 
             #si ese nodo cumple las condiciones de ser un estado final (observaciones pendientes = transmisiones pendientes = 0), se finaliza
