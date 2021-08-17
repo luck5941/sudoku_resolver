@@ -1,18 +1,11 @@
 class Sudoku:
     def __init__(self, matrix):
         self.matrix = [[x for x in row] for row in matrix]
-        self.transverse = [[matrix[i][j] for i in range(len(matrix))] for j in range(len(matrix[0]))]
-        self.squads = [[] for _ in range(len(matrix))]
-        self.missing = 0
+        self.missing = sum([row.count(0) for row in matrix])
         self.last_action = (-1, -1)
-        for i in range(len(matrix)):
-            for j in range(len(matrix)):
-                self.squads[3 * (i // 3) + j // 3].append(matrix[i][j])
-                if matrix[i][j] == 0:
-                    self.missing += 1
 
     def available(self, n, i, j):
-        if n in self.matrix[i] or n in self.transverse[j] or n in self.squads[3*(i // 3) + j // 3]:
+        if n in self.matrix[i] or n in [row[j] for row in self.matrix] or n in [self.matrix[ii//9][ii%9] for ii in range(9**2) if 3*((ii//9)//3)+(ii%9)//3 == 3*(i//3)+j//3]:
             return None
         else:
             matrix = [[self.matrix[ii][jj] if i != ii or j != jj else n for jj in range(len(self.matrix[i]))] for ii in
@@ -33,9 +26,6 @@ class Sudoku:
         if 0 <= i < len(self.matrix) and 0 <= j < len(self.matrix[0]):
             self.last_action = (i, j)
 
-    @property
-    def decompose(self):
-        return self.matrix, self.transverse, self.squads
 
     def __str__(self):
         s = ""
