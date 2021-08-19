@@ -1,92 +1,184 @@
 class Sudoku:
+    """Class in charge of represent the sudoku
+    puzzle. It has a 9*9 matrix with the initial state
+    of the puzzle and a 9*9 matrix with the sudoku's solution
+    """
+
     def __init__(self, matrix):
+        """ constructor of the sudoku
+        Parameters:
+        -----------
+        matrix: int[9][9]
+            the matrix with the puzzle
+        """
         self.matrix = [[x for x in row] for row in matrix]
-        self.missing = sum([row.count(0) for row in matrix])
-        self.last_action = (-1, -1)
+        self.availables = self.update_availables()
 
-    def available(self, n, i, j):
-        if n in self.matrix[i] or n in [row[j] for row in self.matrix] or n in [self.matrix[ii//9][ii%9] for ii in range(9**2) if 3*((ii//9)//3)+(ii%9)//3 == 3*(i//3)+j//3]:
-            return None
+    def __iter__(self):
+        """method in charge of start the iter process on the
+        free position of the puzzle"""
+        self.position = 0
+        return self
+
+    def __next__(self):
+        """method in charge of iter over all the free position
+        of the puzzle"""
+        if self.position < len(self.availables):
+            p = self.availables[self.position]
+            self.position += 1
+            return p
         else:
-            matrix = [[self.matrix[ii][jj] if i != ii or j != jj else n for jj in range(len(self.matrix[i]))] for ii in
-                      range(len(self.matrix))]
-            return Sudoku(matrix)
+            raise StopIteration
 
-    @property
-    def get_missing(self):
-        return self.missing
+    def __len__(self):
+        """method in charge of return the number of free position"""
+        return sum([row.count(0) for row in self.matrix])
 
-    @property
-    def get_last_action(self):
-        return self.last_action
+    def __getitem__(self, key):
+        """method in charge of return the availables number on one specific
+        position
+        Parameters:
+        ----------
+        key: (int, int)
+            a tuple with the position to ask
+        """
+        for p in self.availables:
+            if p[0][0] == key[0] and p[0][1] == key[1]:
+                return p[1]
 
-    @property
-    def set_last_action(self, positions):
-        i, j = positions
-        if 0 <= i < len(self.matrix) and 0 <= j < len(self.matrix[0]):
-            self.last_action = (i, j)
-
+    def __setitem__(self, key, value):
+        i, j = key
+        for missing in self.availables:
+            ii, jj = missing[0]
+            if ii == i and jj == j:
+                self.matrix[i][j] = value
+                break
 
     def __str__(self):
         s = ""
-        for row in self.matrix:
-            for number in row:
-                s += f"{number}|"
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                s += f"{self.matrix[i][j]}|"
             s += "\n"
         return s
 
-    def __copy__(self):
-        return Sudoku(self.matrix)
-
-    def __eq__(self, sudoku):
+    def __eq__(self, other):
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
-                if self.matrix[i][j] != sudoku.matrix[i][j]: return False
+                if self.matrix[i][j] != other.matrix[i][j]:
+                    return False
         return True
+
+    def clone(self):
+        return Sudoku(matrix=self.matrix)
+
+    def update_availables(self):
+        _missing = [(i // 9, i % 9) for i in range(9 ** 2) if self.matrix[i // 9][i % 9] == 0]
+        availables = [(p, set(self.get_availables(p[0], p[1]))) for p in _missing]
+        availables = sorted(availables, key=lambda x: len(x[1]))
+        self.availables = availables
+        return availables
+
+    def available(self, n, i, j):
+        """Method in charge of check if key can be set into the position i, j
+        of the puzzle
+        Parameters:
+        -----------
+        key: int
+            number between 1 and 9 for check if is available on the selected position
+        i: int
+            number between 0 and 8 representing the row
+        j: int
+            number between 0 and 8 representing the column
+        """
+
+        if not 0 < n < 10:
+            raise Exception("Number not valid")
+        if not 0 <= i < 9:
+            raise IndexError(f"i {i} must be between 0 and 9")
+        if not 0 <= j < 9:
+            raise IndexError(f"j {j} must be between 0 and 9")
+
+        if (n in self.matrix[i] or
+                n in [row[j] for row in self.matrix] or
+                n in [self.matrix[ii // 9][ii % 9] for ii in range(9 ** 2) if
+                      3 * ((ii // 9) // 3) + (ii % 9) // 3 == 3 * (i // 3) + j // 3]):
+            return False
+        else:
+            return True
+
+    def get_availables(self, i, j):
+        """Method in charge of return the list of posibles values into the position i, j of the puzzle
+        Parameters:
+        -----------
+        i: int
+            number between 0 and 8 representing the row
+        j: int
+            number between 0 and 8 representing the column
+        """
+        for n in range(1, 10):
+            if self.available(n, i, j) is True:
+                yield n
 
 
 class State:
-    def __init__(self, sudoku):
-        self.g = 0
-        self.h = 0
-        self.sudoku = sudoku.__copy__()
-
-    @property
-    def is_complete(self):
-        return self.sudoku.get_missing == 0
+    def __init__(self, sudoku, g=0, h=0):
+        self.sudoku = sudoku
+        self.g = g
+        self.h = h
 
     def __eq__(self, state2):
-        if not isinstance(state2, State):
-            raise Exception("state2 must be a State")
         return self.sudoku == state2.sudoku
 
-    def __copy__(self):
-        ns = State(self.sudoku)
-        return ns
+    def __str__(self):
+        return f"g: {self.g} h: {self.h}: missing:  {len(self.sudoku)}"
+
+    @property
+    def complete(self):
+        return len(self.sudoku) == 0
+
+    def clone(self):
+        return State(self.sudoku, self.g, self.h)
+
+
+def reduce_list(sudoku):
+    cont = 0
+    nodes_possibles = sudoku.availables
+    for node in nodes_possibles:
+        i, j = node[0]
+        if len(node[1]) == 1:
+            cont += 1
+            sudoku[i, j] = node[1].pop()
+        else:
+            break
+    sudoku.update_availables()
+    return cont
 
 
 class Action:
-    def __init__(self):
-        self.state = None
+    def __init__(self, state):
+        self._state = state
 
-    def set_state(self, state):
-        self.state = state
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state
 
     def get_successors(self):
-        """
-        method in charge of generate all the posibles succesors of the current state
-        for that create a list with all the posibles new states of the the sudoku
-        """
-        successors = [self.state.__copy__() for _ in range(self.state.sudoku.get_missing*9)]
-        current_state = 0
-        for i in range(len(self.state.sudoku.matrix)):
-            for j in range(len(self.state.sudoku.matrix[i])):
-                if self.state.sudoku.matrix[i][j] == 0:
-                    for n in range(1, 10):
-                        s = self.state.sudoku.available(n, i, j)
-                        if s is not None:
-                            successors[current_state] = State(s)
-                            current_state += 1
-                            if current_state == self.state.sudoku.get_missing:
-                                return successors[:current_state]
-        return []
+        new_sudoku = self._state.sudoku.clone()
+        pos = -1
+        while pos != 0:
+            pos = reduce_list(new_sudoku)
+
+        successors = [State(new_sudoku)]
+        for tmp in new_sudoku.availables:
+            for p in tmp[1]:
+                i, j = tmp[0]
+                tmp_sudoku = new_sudoku.clone()
+                tmp_sudoku[i, j] = p
+                successors.append(State(tmp_sudoku))
+
+        return successors

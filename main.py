@@ -1,30 +1,26 @@
-#!/usr/bin/env python
-from sys import argv, stderr, stdout
-import datetime
+#!/bin/python
 import problem_definition as pd
-import A_star
 import utils
+from sys import argv
 
-if len(argv)< 3:
-    raise Exception("Error: Missing some arguments\n")
+if __name__ == '__main__':
+    if len(argv) < 2:
+        raise Exception("Puzzle not indicate")
+        exit(-1)
 
-#read the sudoku passed by parameter
-i_sudoku = utils.read_sudoku(argv[1])
-i_sudoku = pd.Sudoku(i_sudoku)
-i_state = pd.State(i_sudoku)
+    puzzle = utils.read_sudoku(argv[1])
+    solution = pd.Sudoku(utils.read_sudoku("test1/solution"))
+    i_sudoku = pd.Sudoku(puzzle)
+    i_state = pd.State(i_sudoku)
+    print(i_state)
+    action = pd.Action(i_state)
+    successors = action.get_successors()
+    if len(successors) == 1:
+        print(solution == successors[0].sudoku)
+        print(solution)
+    else:
+        print(len(successors))
 
-start_time = datetime.datetime.now()
-print(start_time)
-astar = A_star.AStar(int(argv[2]))
 
-results = astar.start(i_state)
-elapsed = datetime.datetime.now() - start_time
-
-if results[1] is not None:
-    print(results[1])
-    print(results[0].state.sudoku)
-    print("required time: {}".format(int(elapsed.total_seconds())))
-else:
-    print("No solution")
 
 
