@@ -156,12 +156,16 @@ class State:
 def reduce_list(sudoku):
     cont = 0
     nodes_possibles = sudoku.availables
-    
     for node in nodes_possibles:
         i, j = node[0]
         if len(node[1]) == 1:
             cont += 1
-            sudoku[i, j] = node[1].pop()
+            try:
+                n = node[1].pop()
+                sudoku[i, j] = n
+            except:
+                print(f"Invalid configuration detected for {n}")
+                return None
         else:
             break
     sudoku.update_availables()
@@ -185,6 +189,8 @@ class Action:
         pos = -1
         while pos != 0:
             pos = reduce_list(new_sudoku)
+            if pos is None:
+                return []
 
         successors = [State(new_sudoku)]
         for tmp in new_sudoku.availables:
