@@ -13,6 +13,7 @@ class Sudoku:
         """
         self.matrix = [[x for x in row] for row in matrix]
         self.availables = self.update_availables()
+        self.last_update = ()
 
     def __iter__(self):
         """method in charge of start the iter process on the
@@ -48,10 +49,15 @@ class Sudoku:
 
     def __setitem__(self, key, value):
         i, j = key
+        if not self.available(value, i, j):
+            raise Exception("Invalid update")
         for missing in self.availables:
             ii, jj = missing[0]
             if ii == i and jj == j:
                 self.matrix[i][j] = value
+                self.last_update = (i, j, value)
+                if value in missing[1]:
+                    missing[1].remove(value)
                 break
 
     def __str__(self):
@@ -93,7 +99,7 @@ class Sudoku:
         """
 
         if not 0 < n < 10:
-            raise Exception("Number not valid")
+            raise Exception(str(n) + " Number not valid")
         if not 0 <= i < 9:
             raise IndexError(f"i {i} must be between 0 and 9")
         if not 0 <= j < 9:
@@ -120,6 +126,12 @@ class Sudoku:
             if self.available(n, i, j) is True:
                 yield n
 
+    @property
+    def is_valid(self):
+        for x in self.availables:
+            if len(x[1]) == 0:
+                return False
+        return True
 
 class State:
     def __init__(self, sudoku, g=0, h=0):
@@ -144,6 +156,7 @@ class State:
 def reduce_list(sudoku):
     cont = 0
     nodes_possibles = sudoku.availables
+    
     for node in nodes_possibles:
         i, j = node[0]
         if len(node[1]) == 1:
@@ -175,10 +188,11 @@ class Action:
 
         successors = [State(new_sudoku)]
         for tmp in new_sudoku.availables:
+            if len(tmp[1]) == 0:
+                return []
             for p in tmp[1]:
                 i, j = tmp[0]
                 tmp_sudoku = new_sudoku.clone()
                 tmp_sudoku[i, j] = p
                 successors.append(State(tmp_sudoku))
-
         return successors

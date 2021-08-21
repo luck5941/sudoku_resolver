@@ -3,16 +3,17 @@ class Node:
     y la cola
     :atributes:
         state: El valor asignado a cada nodo. En este problema se usa la definición de estado de problem_definition.state
-        nxt: El estado que le sigue en la cola
+        next: El estado que le sigue en la cola
         parent: El nodo que contiene el estado que lo ha generado
     """
     def __init__(self, state, parent):
         self.state = state
-        self.nxt = None
+        self.next = None
         self.parent = parent
 
     def __str__(self):
         return str(self.state)
+
 
 class Queue:
     """Estructura de datos basada en FIFO
@@ -43,7 +44,7 @@ class Queue:
             self.header = nn
             self.current = nn
         else:
-            self.peak.nxt = nn
+            self.peak.next = nn
             self.peak = nn
         self.length +=1
         return self.length
@@ -54,7 +55,7 @@ class Queue:
         """
         if self.length == 0: return None
         nn = self.header
-        self.header = self.header.nxt
+        self.header = self.header.next
         self.length -=1
         return nn
 
@@ -64,11 +65,56 @@ class Queue:
     def __next__(self):
         if self.length > 0 and self.current != None:
             n = self.current
-            self.current = self.current.nxt
+            self.current = self.current.next
             return n
         else: 
             self.current = self.header
             raise StopIteration
+
+
+class Stack:
+    def __init__(self):
+        self._items = []
+
+    def append(self, state, parent=None):
+        nn = Node(state, parent)
+        self._items.insert(0, nn)
+
+    def pop(self):
+        if len(self._items) == 0: return None
+        return self._items.pop(0)
+
+    def __len__(self):
+        return len(self._items)
+
+
+class _Stack:
+    def __init__(self):
+        self.length = 0
+        self.peak = None
+        self.current = None
+
+    def append(self, state, parent=None):
+        nn = Node(state, parent)
+        if len(self) == 0:
+            self.peak = nn
+        else:
+            nn.next = self.peak
+            self.peak = nn
+        self.length += 1
+        return self.length
+
+    def pop(self):
+        if len(self) == 0:
+            return None
+        nn = self.peak
+        self.peak = self.peak.next
+        self.length -= 1
+        return nn
+
+    def __len__(self):
+        return self.length
+
 
 class OrderQueue(Queue):
     """Estructura de datos basada en Fifo ca"""
@@ -98,34 +144,34 @@ class OrderQueue(Queue):
 
             #se itera en la lista hasta encontrar la posicion en la que debemos insertar el nuevo estado o hasta encontrar un nodo
             #con el mismo estado, en cullo caso, no se inserta el nuevo estado
-            while f(current.state) < evaluate_f and current.nxt is not None:
+            while f(current.state) < evaluate_f and current.next is not None:
                 if current.state == state:
                     return
                 last = current
-                current = current.nxt
+                current = current.next
              
             #una vez se llegue al final de la cola o se encuentre la posicion intermedia en la que se debe realizar la insercion, se procedera a ello
-            if current.nxt is None:
-                self.peak.nxt = nn
+            if current.next is None:
+                self.peak.next = nn
                 self.peak = nn
             else:
-                nn.nxt = current
+                nn.next = current
                 if current == self.header:
                     self.header = nn
                 else:
-                    last.nxt = nn
+                    last.next = nn
 
         self.length +=1
         current = nn
         #comprobamos que el estado no esté con peor f
-        while current.nxt is not None:
-                if current.nxt.state == state:
-                        if current.nxt.nxt is None:
+        while current.next is not None:
+                if current.next.state == state:
+                        if current.next.next is None:
                             self.peak = current
-                        current.nxt = current.nxt.nxt
+                        current.next = current.next.next
                         self.length -=1
                         break
-                current = current.nxt
+                current = current.next
 
         return self.length
 
