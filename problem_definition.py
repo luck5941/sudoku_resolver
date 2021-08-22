@@ -1,72 +1,17 @@
+def get_sub_matrix(ii, jj):
+    return 3*(ii//3) + jj//3
+
+
 class Sudoku:
-    """Class in charge of represent the sudoku
-    puzzle. It has a 9*9 matrix with the initial state
-    of the puzzle and a 9*9 matrix with the sudoku's solution
-    """
-
     def __init__(self, matrix):
-        """ constructor of the sudoku
-        Parameters:
-        -----------
-        matrix: int[9][9]
-            the matrix with the puzzle
-        """
         self.matrix = [[x for x in row] for row in matrix]
-        self.availables = self.update_availables()
-        self.last_update = ()
-
-    def __iter__(self):
-        """method in charge of start the iter process on the
-        free position of the puzzle"""
-        self.position = 0
-        return self
-
-    def __next__(self):
-        """method in charge of iter over all the free position
-        of the puzzle"""
-        if self.position < len(self.availables):
-            p = self.availables[self.position]
-            self.position += 1
-            return p
-        else:
-            raise StopIteration
-
-    def __len__(self):
-        """method in charge of return the number of free position"""
-        return sum([row.count(0) for row in self.matrix])
-
-    def __getitem__(self, key):
-        """method in charge of return the availables number on one specific
-        position
-        Parameters:
-        ----------
-        key: (int, int)
-            a tuple with the position to ask
-        """
-        for p in self.availables:
-            if p[0][0] == key[0] and p[0][1] == key[1]:
-                return p[1]
 
     def __setitem__(self, key, value):
-        i, j = key
-        if not self.available(value, i, j):
-            raise Exception("Invalid update")
-        for missing in self.availables:
-            ii, jj = missing[0]
-            if ii == i and jj == j:
-                self.matrix[i][j] = value
-                self.last_update = (i, j, value)
-                if value in missing[1]:
-                    missing[1].remove(value)
-                break
-
-    def __str__(self):
-        s = ""
-        for i in range(len(self.matrix)):
-            for j in range(len(self.matrix[i])):
-                s += f"{self.matrix[i][j]}|"
-            s += "\n"
-        return s
+        i, k = key
+        if self.valid_position(i, k, value):
+            self.matrix[i][k] = value
+        else:
+            raise Exception("Invalid value")
 
     def __eq__(self, other):
         for i in range(len(self.matrix)):
@@ -75,63 +20,69 @@ class Sudoku:
                     return False
         return True
 
-    def clone(self):
-        return Sudoku(matrix=self.matrix)
+    def __copy__(self):
+        return Sudoku(self.matrix)
 
-    def update_availables(self):
-        _missing = [(i // 9, i % 9) for i in range(9 ** 2) if self.matrix[i // 9][i % 9] == 0]
-        availables = [(p, set(self.get_availables(p[0], p[1]))) for p in _missing]
-        availables = sorted(availables, key=lambda x: len(x[1]))
-        self.availables = availables
-        return availables
+    def __str__(self):
+        return "\n".join(["|".join([str(x) for x in row]) for row in self.matrix])
 
-    def available(self, n, i, j):
-        """Method in charge of check if key can be set into the position i, j
-        of the puzzle
-        Parameters:
-        -----------
-        key: int
-            number between 1 and 9 for check if is available on the selected position
-        i: int
-            number between 0 and 8 representing the row
-        j: int
-            number between 0 and 8 representing the column
-        """
+    def __len__(self):
+        return len(list(self.empty_position))
 
-        if not 0 < n < 10:
-            raise Exception(str(n) + " Number not valid")
-        if not 0 <= i < 9:
-            raise IndexError(f"i {i} must be between 0 and 9")
-        if not 0 <= j < 9:
-            raise IndexError(f"j {j} must be between 0 and 9")
-
-        if (n in self.matrix[i] or
-                n in [row[j] for row in self.matrix] or
-                n in [self.matrix[ii // 9][ii % 9] for ii in range(9 ** 2) if
-                      3 * ((ii // 9) // 3) + (ii % 9) // 3 == 3 * (i // 3) + j // 3]):
-            return False
-        else:
-            return True
-
-    def get_availables(self, i, j):
-        """Method in charge of return the list of posibles values into the position i, j of the puzzle
-        Parameters:
-        -----------
-        i: int
-            number between 0 and 8 representing the row
-        j: int
-            number between 0 and 8 representing the column
-        """
-        for n in range(1, 10):
-            if self.available(n, i, j) is True:
-                yield n
+    def valid_position(self, i, j, value):
+        for ii in range(len(self.matrix)):
+            for jj in range(len(self.matrix[ii])):
+                if i == ii and value == self.matrix[ii][jj]:
+                    return False
+                elif j == jj and value == self.matrix[ii][jj]:
+                    return False
+                elif get_sub_matrix(ii, jj) == get_sub_matrix(i, j) and value == self.matrix[ii][jj]:
+                    return False
+        return True
 
     @property
-    def is_valid(self):
-        for x in self.availables:
-            if len(x[1]) == 0:
-                return False
-        return True
+    def empty_position(self):
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                if self.matrix[i][j] == 0:
+                    yield i, j
+    @property
+    def available(self):
+        availables = []
+        for position in self.empty_position:
+            i, j = position
+            availables.append(((i, j), set()))
+            for k in range(1, 10):
+                if self.valid_position(i, j, k):
+                    availables[-1][1].add(k)
+        availables = sorted(availables, key=lambda x: len(x[1]), reverse=True)
+        return availables
+
+    def remove_trivial_solution_l1(self, posibles=False):
+        if not posibles:
+            posibles = self.available
+        for posible in posibles:
+            if len(posible[1]) == 1:
+                try:
+                    self[posible[0]] = posible[1].pop()
+                except:
+                    return None
+            else:
+                continue
+        return self
+
+    def remove_trivial_solution(self):
+        posibles = self.available
+        old = len(posibles)
+        new = -1
+        while old != new:
+            if self.remove_trivial_solution_l1(posibles) is None:
+                return None
+            posibles = self.available
+            old = new
+            new = len(posibles)
+        return self
+
 
 class State:
     def __init__(self, sudoku, g=0, h=0):
@@ -139,66 +90,42 @@ class State:
         self.g = g
         self.h = h
 
-    def __eq__(self, state2):
-        return self.sudoku == state2.sudoku
+    def __eq__(self, other):
+        return self.sudoku == other.sudoku
 
-    def __str__(self):
-        return f"g: {self.g} h: {self.h}: missing:  {len(self.sudoku)}"
+    def __copy__(self):
+        return State(self.sudoku, self.g, self.h)
 
     @property
     def complete(self):
         return len(self.sudoku) == 0
 
-    def clone(self):
-        return State(self.sudoku, self.g, self.h)
-
-
-def reduce_list(sudoku):
-    cont = 0
-    nodes_possibles = sudoku.availables
-    for node in nodes_possibles:
-        i, j = node[0]
-        if len(node[1]) == 1:
-            cont += 1
-            try:
-                n = node[1].pop()
-                sudoku[i, j] = n
-            except:
-                print(f"Invalid configuration detected for {n}")
-                return None
-        else:
-            break
-    sudoku.update_availables()
-    return cont
+    def set_sudoku(self, sudoku):
+        self.sudoku = sudoku
 
 
 class Action:
     def __init__(self, state):
-        self._state = state
-
-    @property
-    def state(self):
-        return self._state
-
-    @state.setter
-    def state(self, state):
-        self._state = state
+        self.state = state
 
     def get_successors(self):
-        new_sudoku = self._state.sudoku.clone()
-        pos = -1
-        while pos != 0:
-            pos = reduce_list(new_sudoku)
-            if pos is None:
-                return []
+        new_sudoku = self.state.sudoku.__copy__()
+        """
+        new_sudoku = new_sudoku.remove_trivial_solution()
+        if new_sudoku is None:
+            return []
+        """
 
-        successors = [State(new_sudoku)]
-        for tmp in new_sudoku.availables:
+        movements = []
+        for tmp in new_sudoku.available:
             if len(tmp[1]) == 0:
                 return []
             for p in tmp[1]:
                 i, j = tmp[0]
-                tmp_sudoku = new_sudoku.clone()
+                tmp_sudoku = new_sudoku.__copy__()
                 tmp_sudoku[i, j] = p
-                successors.append(State(tmp_sudoku))
-        return successors
+                tmp_state = self.state.__copy__()
+                tmp_state.set_sudoku(tmp_sudoku)
+                movements.append(tmp_state)
+
+        return movements
