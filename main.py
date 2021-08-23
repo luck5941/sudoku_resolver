@@ -49,6 +49,7 @@ for l in ll:
 if __name__ == '__main__':
     i_sudoku = pd.Sudoku(utils.read_sudoku(argv[1]))
     print(i_sudoku)
+    i_sudoku.remove_trivial_solution()
     i_state = pd.State(i_sudoku)
     dfs = algorith.DFS(i_state, len(i_sudoku)+1)
     start_time = datetime.datetime.now()

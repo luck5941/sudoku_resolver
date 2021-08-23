@@ -13,6 +13,7 @@ class Sudoku:
         else:
             raise Exception("Invalid value")
 
+
     def __eq__(self, other):
         for i in range(len(self.matrix)):
             for j in range(len(self.matrix[i])):
@@ -28,6 +29,9 @@ class Sudoku:
 
     def __len__(self):
         return len(list(self.empty_position))
+
+    def __hash__(self):
+        return hash((tuple(x) for x in self.matrix))
 
     def valid_position(self, i, j, value):
         for ii in range(len(self.matrix)):
@@ -96,6 +100,8 @@ class State:
     def __copy__(self):
         return State(self.sudoku, self.g, self.h)
 
+    def __hash__(self):
+        return hash(self.sudoku)
     @property
     def complete(self):
         return len(self.sudoku) == 0
@@ -110,13 +116,12 @@ class Action:
 
     def get_successors(self):
         new_sudoku = self.state.sudoku.__copy__()
-        """
+        new_state = self.state.__copy__()
         new_sudoku = new_sudoku.remove_trivial_solution()
         if new_sudoku is None:
             return []
-        """
-
-        movements = []
+        new_state.set_sudoku(new_sudoku)
+        movements = [new_state]
         for tmp in new_sudoku.available:
             if len(tmp[1]) == 0:
                 return []
