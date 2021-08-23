@@ -54,7 +54,7 @@ if __name__ == '__main__':
     dfs = algorith.DFS(i_state, len(i_sudoku)+1)
     start_time = datetime.datetime.now()
     print(start_time)
-    final_state = dfs.start()
+    final_state = dfs.start(slow_aproach=False)
     elapsed = datetime.datetime.now() - start_time
     if final_state is not None:
         print(final_state.sudoku)
