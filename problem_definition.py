@@ -5,11 +5,14 @@ def get_sub_matrix(ii, jj):
 class Sudoku:
     def __init__(self, matrix):
         self.matrix = [[x for x in row] for row in matrix]
+        self.last_action = [(-1, -1), -1]
 
     def __setitem__(self, key, value):
         i, k = key
         if self.valid_position(i, k, value):
             self.matrix[i][k] = value
+            self.last_action[0] = key
+            self.last_action[1] = value
         else:
             raise Exception("Invalid value")
 
@@ -61,7 +64,7 @@ class Sudoku:
             for k in range(1, 10):
                 if self.valid_position(i, j, k):
                     availables[-1][1].add(k)
-        availables = sorted(availables, key=lambda x: len(x[1]), reverse=True)
+        #availables = sorted(availables, key=lambda x: len(x[1]), reverse=True)
         return availables
 
     def get_sumatrix(self, n):
@@ -132,6 +135,10 @@ class State:
     @property
     def complete(self):
         return len(self.sudoku) == 0
+
+    @property
+    def last_action(self):
+        return self.sudoku.last_action
 
     def set_sudoku(self, sudoku):
         self.sudoku = sudoku

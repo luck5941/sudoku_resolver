@@ -9,8 +9,7 @@ class DFS:
         self.stack.append(initial_state)
         self.max_depth = max_depth
         self.end = False
-        self.visited = set()
-
+        
     def start(self, slow_aproach=False, increment=1):
         if not slow_aproach:
             return self.__start(self.max_depth)
@@ -30,24 +29,22 @@ class DFS:
 
     def __start(self, max_depth):
         final_state = None
-
         while len(self.stack) > 0 and not self.end:
+            print(len(self.stack))
             current_state = self.stack.pop()
-
-            if current_state.complete:
-                self.end = True
-                final_state = current_state
-                break
             if current_state.g >= max_depth:
                 continue
 
-            self.visited.add(current_state)
             action = Action(current_state)
             actions = action.get_successors()
 
             for posible_state in actions:
-                posible_state.g = current_state.g + 1
-                if posible_state not in self.visited:
+                posible_state.g += 1
+                if posible_state.complete:
+                    self.end = True
+                    final_state = posible_state
+                    break
+                else:
                     self.stack.append(posible_state)
         return final_state
 
