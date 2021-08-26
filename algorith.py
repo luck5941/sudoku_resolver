@@ -11,17 +11,17 @@ class DFS:
         self.end = False
         self.visited = set()
 
-    def start(self, slow_aproach=False):
+    def start(self, slow_aproach=False, increment=1):
         if not slow_aproach:
             return self.__start(self.max_depth)
         else:
-            c = 1
+            c = increment
             result = None
             while c <= self.max_depth+1:
                 result = self.__start(c)
                 if result is None:
                     print(f"iter {c}")
-                    c += 1
+                    c += increment 
                     self.stack.append(self.initial_state)
 
                 else:
