@@ -1,5 +1,5 @@
 from aux_structure import Stack
-from problem_definition import Action, State
+from problem_definition import Action
 
 
 class DFS:
@@ -20,7 +20,6 @@ class DFS:
             while c <= self.max_depth+1:
                 result = self.__start(c)
                 if result is None:
-                    print(f"iter {c}")
                     c += increment 
                     self.stack.append(self.initial_state)
 
@@ -32,7 +31,6 @@ class DFS:
         final_state = None
         while len(self.stack) > 0 and not self.end:
             current_state = self.stack.pop()
-            print(f"{len(self.stack)} {len(current_state.sudoku)}")
             if current_state.g >= max_depth:
                 continue
 

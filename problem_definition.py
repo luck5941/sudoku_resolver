@@ -74,13 +74,7 @@ class Sudoku:
         availables = sorted(availables, key=lambda x: len(x[1]))
         return availables
 
-    def get_sumatrix(self, n):
-        for i in range(len(self.matrix)):
-            for j in range(len(self.matrix[i])):
-                if 3*(i//3) + j//3 == n:
-                    yield self.matrix[i][j]
-
-    def remove_trivial_solution_l1(self, posibles=()):
+    def _remove_trivial_solution_l1(self, posibles=()):
         if not posibles:
             posibles = self.available
         for posible in posibles:
@@ -93,7 +87,7 @@ class Sudoku:
                 continue
         return self
 
-    def remove_trivial_solution_l2(self, matrix):
+    def _remove_trivial_solution_l2(self, matrix):
         dif = False
         for value in range(1, 10):
             for i in range(len(matrix)):
@@ -114,9 +108,9 @@ class Sudoku:
         new = -1
         while old != new:
             transverse = [[self.matrix[j][i] for j in range(len(self.matrix))] for i in range(len(self.matrix[0]))]
-            l2 = self.remove_trivial_solution_l2(self.matrix)
-            l3 = self.remove_trivial_solution_l2(transverse)
-            l1 = self.remove_trivial_solution_l1(posibles)
+            l2 = self._remove_trivial_solution_l2(self.matrix)
+            l3 = self._remove_trivial_solution_l2(transverse)
+            l1 = self._remove_trivial_solution_l1(posibles)
             if l1 is None and not l2 and not l3:
                 return None
             posibles = self.available
@@ -155,7 +149,6 @@ class State:
 class Action:
     def __init__(self, state):
         self._state = state
-        self._positions = tuple((value[0] for value in self._state.sudoku.available))
 
     @property
     def state(self):
