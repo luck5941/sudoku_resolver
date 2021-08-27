@@ -9,7 +9,8 @@ class DFS:
         self.stack.append(initial_state)
         self.max_depth = max_depth
         self.end = False
-        
+        self.action = Action(initial_state)
+
     def start(self, slow_aproach=False, increment=1):
         if not slow_aproach:
             return self.__start(self.max_depth)
@@ -30,13 +31,13 @@ class DFS:
     def __start(self, max_depth):
         final_state = None
         while len(self.stack) > 0 and not self.end:
-            print(len(self.stack))
             current_state = self.stack.pop()
+            print(f"{len(self.stack)} {len(current_state.sudoku)}")
             if current_state.g >= max_depth:
                 continue
 
-            action = Action(current_state)
-            actions = action.get_successors()
+            self.action.state = current_state
+            actions = self.action.get_successors()
 
             for posible_state in actions:
                 posible_state.g += 1
