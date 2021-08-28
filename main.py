@@ -1,6 +1,6 @@
 #!/bin/python
 import datetime
-from sys import argv, stderr
+from sys import argv
 
 import problem_definition as pd
 import utils
@@ -10,7 +10,7 @@ if __name__ == '__main__':
     if len(argv) < 2:
         name = argv[0]
         s = f"Error: use {name} <fileName> where fileName is the file with the sudoku you want to resolve\n"
-        stderr.write(s)
+        utils.perror(s)
         exit(-1)
 
     i_sudoku = pd.Sudoku(utils.read_sudoku(argv[1]))
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     dfs = algorith.DFS(i_state, len(i_sudoku)+1)
     start_time = datetime.datetime.now()
     print(start_time)
-    final_state = dfs.start(slow_aproach=False, increment=1)
+    final_state = dfs.start(slow_approach=False, increment=1)
     elapsed = datetime.datetime.now() - start_time
     if final_state is not None:
         print(final_state.sudoku)

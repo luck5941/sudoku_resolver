@@ -19,7 +19,7 @@ el cual viene con algunos ejemplos de sudokus
 
 
 ## Uso
-> python3 main.py -file with the sudoku-
+> python3 main.py < file with the sudoku >
 
 La carpeta test contiene un conjunto de pruebas o sudokus a resolver organizados por dificultad 
 
