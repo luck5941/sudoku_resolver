@@ -6,20 +6,19 @@ class DFS:
     """Class in charge of build de Deep First Search algorithm to resolve the problem you indicate
     For that we use a custom stack but can be change for other one.
 
-    Attributes
-    __________
-    initial_state: problem_definition.State
-        The state in which the problem start
-    stack: aux_structure.Stack
-        The stack in which all the generate states are stored
-    max_depth: int
-        the max cost of the state that can has the result of the problem
+    Attributes:
+        initial_state: A problem_definition.State. The state in which the problem start
+        stack: aux_structure.Stack The stack in which all the generate states are stored
+        max_depth: int the max cost of the state that can has the result of the problem
     """
-    def __init__(self, initial_state, max_depth):
+    def __init__(self, initial_state: pd.State, max_depth: int):
         """
-        :param problem_definition.State initial_state: the state in which the problem start
-        :param int max_depth: the max cost of the state that can has the result of the problem
-        :raises ValueError: if the max_depth is invalid or if the initial state not match with the api especificate into problem_definition
+        Args:
+            initial_state: problem_definition.State. the state in which the problem start
+            max_depth: A int with the max cost of the state that can has the result of the problem
+
+        Raises:
+            ValueError: if the max_depth is invalid or if the initial state not match with the api especificate into problem_definition
         """
         self.initial_state = initial_state
         self.max_depth = max_depth
@@ -33,14 +32,16 @@ class DFS:
         self._end = False
         self._action = pd.Action(initial_state)
 
-    def start(self, slow_approach=False, increment=1):
+    def start(self, slow_approach: bool = False, increment: int = 1) -> pd.State:
         """Method in charge of start the algorithm.
         If slow_approach is set as True, the algorithm take a iterative DFS with increment parameter
         representing increase of the max_depth in each iteration
-        :rtype: problem_definition.State
-        :param bool slow_approach: if True, then the algorithm is incremental DFS
-        :param int increment: the steps of increase the max_depth.
-        :return: The final state with the solution or None in case of not found it
+        Args:
+            slow_approach: A bool. If True, then the algorithm is incremental DFS.
+            increment: A int with the steps of increase the max_depth.
+
+        Returns:
+            The final state with the solution or None in case of not found it
         """
         if not slow_approach:
             return self.__start(self.max_depth)
@@ -56,11 +57,13 @@ class DFS:
                     break
         return result
 
-    def __start(self, max_depth):
+    def __start(self, max_depth: int) -> pd.State:
         """Private method with the logic of the DFS algorithm
-        :rtype: problem_definition.State
-        :param int max_depth: the max cost of the search, representing the deep of the graph generate
-        :return: The final state with the solution or None in case of not found it
+
+        Args:
+            max_depth: A int with the max cost of the search, representing the deep of the graph generate
+        Returns:
+            The final state with the solution or None in case of not found it
         """
 
         final_state = None
