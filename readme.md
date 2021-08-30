@@ -14,16 +14,21 @@ cuando las opciones 1 y 2 no resultan suficiente
 Para poder probar el programa, solo hace falta descargar el respositorio,
 el cual viene con algunos ejemplos de sudokus
 
-> git clone https://github.com/luck5941/sudoku_resolver.git \
-> cd sudoku_resolver
-
+```console
+$ git clone https://github.com/luck5941/sudoku_resolver.git
+$ cd sudoku_resolver
+```
 
 ## Uso
-> python3 main.py < file with the sudoku >
+```console
+$ python3 main.py <file with the sudoku>
+```
 
 La carpeta test contiene un conjunto de pruebas o sudokus a resolver organizados por dificultad 
+
 ## Ejemplo de uso
-```
+
+```python
 #!/usr/bin/env python
 
 #import external libraries
