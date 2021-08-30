@@ -1,0 +1,1197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>sudoku_resolver.problem_definition API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>sudoku_resolver.problem_definition</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Generator, Union
+
+
+def get_sub_matrix(ii, jj):
+    &#34;&#34;&#34;function in charge of return the sub matrix of the current cell
+    Args:
+        ii: A int with the number of the row
+        jj: A int with the number of the column
+
+    Returns:
+        A int with the sub matrix&#39;s number
+
+    Raises:
+        IndexError: If get invalid range of value
+
+    &#34;&#34;&#34;
+    if 0 &lt;= ii &lt; 9 or 0 &lt;= jj &lt; 9:
+        return 3*(ii//3) + jj//3
+    else:
+        raise IndexError(&#34;The column and the row must be in the range [0,8]&#34;)
+
+
+class Sudoku:
+    &#34;&#34;&#34;Class in charge of represent a sudoku. It has the matrix with the numbers.
+
+    Attributes
+            matrix: A list[list[int]] with the matrix with the problem. The empty cells are represented as 0
+    &#34;&#34;&#34;
+
+    def __init__(self, matrix: list[list[int]]):
+        &#34;&#34;&#34;Default constructor. Create a copy of the matrix passed by parameter
+
+        Args:
+            matrix: A list[list[int]] with the board of the game.
+
+        Raises:
+            ValueError: If the board is not a square or If detect invalid number into the board.
+        &#34;&#34;&#34;
+        self.matrix = []
+        for row in matrix:
+            if len(row) != len(matrix):
+                raise ValueError(&#34;The board must be a square&#34;)
+            self.matrix.append([])
+            for x in row:
+                if 0 &lt;= x &lt;= len(matrix):
+                    self.matrix[-1].append(x)
+                else:
+                    raise ValueError(&#34;The values must be a positive number fewer of the length of the board&#34;)
+
+    def __getitem__(self, key: tuple[int, int]) -&gt; int:
+        &#34;&#34;&#34;Method in charge of return the value into the cell especificate into the key parameter of the board
+
+        Args:
+            key: The position that want to know
+
+        Returns:
+            The value of this position
+
+        Raises:
+            IndexError: If get invalid cell or if the key does not have two position.
+        &#34;&#34;&#34;
+        if len(key) != 2:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+        i, j = key
+        if 0 &lt;= i &lt; 9 and 0 &lt;= j &lt; 9:
+            return self.matrix[i][j]
+        else:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+
+    def __setitem__(self, key: tuple[int, int], value: int) -&gt; None:
+        &#34;&#34;&#34;Method in charge of update the matrix
+        Args:
+            key: The position of the matrix that want to know. It must be a tuple of two position
+            value: The new value of this position
+        raises:
+            ValueError: If cant set this value on this position
+            IndexError If get invalid cell or if the key does not have two position.
+        &#34;&#34;&#34;
+        if len(key) != 2:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+        i, k = key
+        if 0 &lt;= i &lt; 9 and 0 &lt;= k &lt; 9:
+            if self.valid_position(i, k, value):
+                self.matrix[i][k] = value
+            else:
+                s = f&#34;Can not update the matrix with {value} on cell {(i, k)}&#34;
+                raise ValueError(s)
+        else:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+
+    def __eq__(self, other: &#39;Sudoku&#39;) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of compare two sudokus. For that compare all the cells of both boards
+        Args:
+            other: Other instance of Sudoku&#39;s class  to be compared
+        Returns:
+            True if are equals otherwise False
+        &#34;&#34;&#34;
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                if self.matrix[i][j] != other.matrix[i][j]:
+                    return False
+        return True
+
+    def __copy__(self) -&gt; &#39;Sudoku&#39;:
+        &#34;&#34;&#34;Method in charge of return a copy of the current sudoku
+        Returns:
+            The copy of the current sudoku
+        &#34;&#34;&#34;
+        return Sudoku(self.matrix)
+
+    def __str__(self) -&gt; str:
+        &#34;&#34;&#34;Method in charge of represent as string the sudoku
+
+        Returns:
+            The sudoku representation
+        &#34;&#34;&#34;
+        return &#34;\n&#34;.join([&#34;|&#34;.join([str(x) for x in row]) for row in self.matrix])
+
+    def __len__(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns:
+            The number of empty cells of the board
+        &#34;&#34;&#34;
+        return len(list(self.empty_position))
+
+    def __hash__(self) -&gt; int:
+        &#34;&#34;&#34;Overwrite the original method hash to allow store a Sudoku into a set
+
+        Returns:
+            The hash value of the board
+
+        &#34;&#34;&#34;
+        return hash((tuple(x) for x in self.matrix))
+
+    def valid_position(self, i: int, j: int, value: int) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of check if the value can be set into the cell selected
+
+        Args:
+            i: the row to be check
+            j: the column to be check
+            value: the new value that want to update
+        &#34;&#34;&#34;
+        if self.matrix[i][j] != 0:
+            return False
+        for ii in range(len(self.matrix)):
+            for jj in range(len(self.matrix[ii])):
+                if i == ii and value == self.matrix[ii][jj]:
+                    return False
+                elif j == jj and value == self.matrix[ii][jj]:
+                    return False
+                elif get_sub_matrix(ii, jj) == get_sub_matrix(i, j) and value == self.matrix[ii][jj]:
+                    return False
+        return True
+
+    @property
+    def empty_position(self) -&gt; Generator[tuple[int, int], None, None]:
+        &#34;&#34;&#34;Generator of the empty cells for the board
+        Returns:
+            All the empty cells
+        &#34;&#34;&#34;
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                if self.matrix[i][j] == 0:
+                    yield i, j
+
+    @property
+    def available(self) -&gt; list[tuple[tuple[int, int], set]]:
+        &#34;&#34;&#34;bidimensional tuple with the positions free and the availables values of that position
+        order by the number of availables options on each cell
+
+        Returns:
+             The list with all the availables positions and his posibles values
+        &#34;&#34;&#34;
+        availables = []
+        for position in self.empty_position:
+            i, j = position
+            availables.append(((i, j), set()))
+            for k in range(1, 10):
+                if self.valid_position(i, j, k):
+                    availables[-1][1].add(k)
+        availables = sorted(availables, key=lambda x: len(x[1]))
+        return availables
+
+    def _remove_trivial_solution_l1(self, posibles: list[tuple[tuple[int, int], set]] = ()) -&gt; int:
+        &#34;&#34;&#34;Method in charge of set all the cells that only has one option available
+
+        Args:
+            posibles: the list with the cells and theirs options. If is empty, use the the list of the Sudoku
+        Returns:
+            A int indicate if there was some error or any changes on the matrix:
+                0 -&gt; Not changes
+                1 -&gt; changes
+                2 -&gt; Invalid sudoku
+        &#34;&#34;&#34;
+        error = 0
+
+        if not posibles:
+            posibles = self.available
+
+        for posible in posibles:
+            # break the for when the number of options are more than one
+            if len(posible[1]) == 1:
+                try:
+                    self[posible[0]] = posible[1].pop()
+                    error = 1
+                # If can not set the value, the current sudoku is invalid so return None to indicate that
+                except ValueError:
+                    error = 2
+                    break
+            else:
+                break
+        return error
+
+    def _remove_trivial_solution_l2(self, matrix: list[list[int]]) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of set all the cell on that a value has its unique option to be set
+
+        Args:
+            matrix: the matrix to be update
+        Returns:
+            if the method change some cell
+        &#34;&#34;&#34;
+        diff = False
+        for value in range(1, len(matrix)):
+            # iter over all valid values
+            for i in range(len(matrix)):
+                # iter over the rows and check if the value is missing
+                if value not in matrix[i]:
+                    posibles = set()
+                    # iter over all the rows of the i cell and check if the value is valid
+                    for j in range(len(matrix[i])):
+                        if self.valid_position(i, j, value):
+                            posibles.add(j)
+                    # if in this row, there is only one valid position for the value, it must be correct and set it
+                    if len(posibles) == 1:
+                        j = posibles.pop()
+                        self[i, j] = value
+                        diff = True
+        return diff
+
+    def remove_trivial_solution(self) -&gt; Union[&#39;Sudoku&#39;, None]:
+        &#34;&#34;&#34;Method in charge of remove trivial solution trying to reduce the empty cells of the board.
+        For that use the private method _remove_trivial_solution_l2 and _remove_trivial_solution_l1 and call it while
+        there are some changes on the matrix
+
+        Returns:
+            The current sudoku after update it
+        &#34;&#34;&#34;
+        posibles = tuple(self.available)
+        old = len(posibles)
+        new = -1
+        while old != new:
+            l2 = self._remove_trivial_solution_l2(self.matrix)
+            transverse = [[self.matrix[j][i] for j in range(len(self.matrix))] for i in range(len(self.matrix[0]))]
+            l3 = self._remove_trivial_solution_l2(transverse)
+            l1 = self._remove_trivial_solution_l1(posibles)
+            if l1 == 2 and not l2 and not l3:
+                return None
+            posibles = self.available
+            old = new
+            new = len(posibles)
+        return self
+
+
+class State:
+    &#34;&#34;&#34;Class in charge of represent a state of the problem. It is prepare for its use in informed and uninformed search.
+    Because that, it has a attribute h representing it heuristic.
+
+    Attributes
+        sudoku Each state has a problem. In this case, the problem is a Sudoku instance
+        g: A int with the cost of the state
+        h: A int with the result of the heuristic function used for this state
+    &#34;&#34;&#34;
+
+    def __init__(self, sudoku: Sudoku, g: int = 0, h: int = 0):
+        &#34;&#34;&#34;
+        Args:
+            sudoku: The sudoku of the state
+            g: the cost of this state
+            h: the heuristic of this state
+        &#34;&#34;&#34;
+        self._sudoku = sudoku
+        self.g = g
+        self.h = h
+
+    def __eq__(self, other: &#39;State&#39;) -&gt; bool:
+        &#34;&#34;&#34;method in charge of compare two state by theirs sudokus
+
+        Args:
+            other: the other state to compare
+
+        Returns:
+            If both state have the same sudoku
+        &#34;&#34;&#34;
+        return self._sudoku == other.sudoku
+
+    def __copy__(self) -&gt; &#39;State&#39;:
+        &#34;&#34;&#34;Create a copy of the current state
+
+        Returns:
+            the copy of the state
+        &#34;&#34;&#34;
+        return State(self._sudoku, self.g, self.h)
+
+    def __hash__(self):
+        &#34;&#34;&#34;Overwrite the original method hash to allow store a State into a set. For that we use the hash of its sudoku
+
+        Returns:
+            The hash value of the board
+
+        &#34;&#34;&#34;
+        return hash(self._sudoku)
+
+    @property
+    def complete(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns:
+            if the current state is final or not. For that check if the empty cells of the sudoku are 0
+        &#34;&#34;&#34;
+        return len(self.sudoku) == 0
+
+    @property
+    def sudoku(self) -&gt; Sudoku:
+        &#34;&#34;&#34;Getter of the Sudoku instance of the state
+
+        Returns:
+            the sudoku of the state
+        &#34;&#34;&#34;
+        return self._sudoku
+
+    @sudoku.setter
+    def sudoku(self, sudoku: Sudoku):
+        &#34;&#34;&#34;setter to update the sudoku
+
+        Args:
+            sudoku: the new sudoku
+        &#34;&#34;&#34;
+        self.sudoku = sudoku
+
+
+class Action:
+    &#34;&#34;&#34;Class in charge of represent all the actions availables for one state
+    Attributes:
+        state: the state that can do the actions
+    &#34;&#34;&#34;
+    def __init__(self, state: State):
+        self._state = state
+
+    @property
+    def state(self):
+        &#34;&#34;&#34;Getter of the state property
+        Returns: The state of the action
+        &#34;&#34;&#34;
+        return self._state
+
+    @state.setter
+    def state(self, state: State):
+        &#34;&#34;&#34;
+        Setter of the state property. Update the current state of the action instance
+        Args:
+            state: The new state
+        &#34;&#34;&#34;
+        self._state = state
+
+    def get_successors(self):
+        &#34;&#34;&#34;Method in charge of return all the new state availbles from the current state. Only make changes into the cell
+        with less values availables.
+
+        Returns:
+            A list with the posibles news state for the first position free of the sudoku
+
+        &#34;&#34;&#34;
+        new_sudoku = self._state.sudoku.__copy__()
+
+        new_sudoku = new_sudoku.remove_trivial_solution()
+        new_state = State(new_sudoku, self._state.g)
+
+        if new_sudoku is None:
+            return []
+        elif new_sudoku != self._state.sudoku:
+            return [new_state]
+
+        availables = new_sudoku.available
+        movements = []
+        pos = availables[0][0]
+        for p in availables[0][1]:
+            tmp_sudoku = new_sudoku.__copy__()
+            tmp_sudoku[pos] = p
+            tmp_state = State(tmp_sudoku, self._state.g)
+            movements.append(tmp_state)
+
+        return movements</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="sudoku_resolver.problem_definition.get_sub_matrix"><code class="name flex">
+<span>def <span class="ident">get_sub_matrix</span></span>(<span>ii, jj)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>function in charge of return the sub matrix of the current cell</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ii</code></strong></dt>
+<dd>A int with the number of the row</dd>
+<dt><strong><code>jj</code></strong></dt>
+<dd>A int with the number of the column</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A int with the sub matrix's number</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>IndexError</code></dt>
+<dd>If get invalid range of value</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_sub_matrix(ii, jj):
+    &#34;&#34;&#34;function in charge of return the sub matrix of the current cell
+    Args:
+        ii: A int with the number of the row
+        jj: A int with the number of the column
+
+    Returns:
+        A int with the sub matrix&#39;s number
+
+    Raises:
+        IndexError: If get invalid range of value
+
+    &#34;&#34;&#34;
+    if 0 &lt;= ii &lt; 9 or 0 &lt;= jj &lt; 9:
+        return 3*(ii//3) + jj//3
+    else:
+        raise IndexError(&#34;The column and the row must be in the range [0,8]&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="sudoku_resolver.problem_definition.Action"><code class="flex name class">
+<span>class <span class="ident">Action</span></span>
+<span>(</span><span>state: <a title="sudoku_resolver.problem_definition.State" href="#sudoku_resolver.problem_definition.State">State</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class in charge of represent all the actions availables for one state</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>state</code></strong></dt>
+<dd>the state that can do the actions</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Action:
+    &#34;&#34;&#34;Class in charge of represent all the actions availables for one state
+    Attributes:
+        state: the state that can do the actions
+    &#34;&#34;&#34;
+    def __init__(self, state: State):
+        self._state = state
+
+    @property
+    def state(self):
+        &#34;&#34;&#34;Getter of the state property
+        Returns: The state of the action
+        &#34;&#34;&#34;
+        return self._state
+
+    @state.setter
+    def state(self, state: State):
+        &#34;&#34;&#34;
+        Setter of the state property. Update the current state of the action instance
+        Args:
+            state: The new state
+        &#34;&#34;&#34;
+        self._state = state
+
+    def get_successors(self):
+        &#34;&#34;&#34;Method in charge of return all the new state availbles from the current state. Only make changes into the cell
+        with less values availables.
+
+        Returns:
+            A list with the posibles news state for the first position free of the sudoku
+
+        &#34;&#34;&#34;
+        new_sudoku = self._state.sudoku.__copy__()
+
+        new_sudoku = new_sudoku.remove_trivial_solution()
+        new_state = State(new_sudoku, self._state.g)
+
+        if new_sudoku is None:
+            return []
+        elif new_sudoku != self._state.sudoku:
+            return [new_state]
+
+        availables = new_sudoku.available
+        movements = []
+        pos = availables[0][0]
+        for p in availables[0][1]:
+            tmp_sudoku = new_sudoku.__copy__()
+            tmp_sudoku[pos] = p
+            tmp_state = State(tmp_sudoku, self._state.g)
+            movements.append(tmp_state)
+
+        return movements</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="sudoku_resolver.problem_definition.Action.state"><code class="name">var <span class="ident">state</span></code></dt>
+<dd>
+<div class="desc"><p>Getter of the state property
+Returns: The state of the action</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def state(self):
+    &#34;&#34;&#34;Getter of the state property
+    Returns: The state of the action
+    &#34;&#34;&#34;
+    return self._state</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="sudoku_resolver.problem_definition.Action.get_successors"><code class="name flex">
+<span>def <span class="ident">get_successors</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method in charge of return all the new state availbles from the current state. Only make changes into the cell
+with less values availables.</p>
+<h2 id="returns">Returns</h2>
+<p>A list with the posibles news state for the first position free of the sudoku</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_successors(self):
+    &#34;&#34;&#34;Method in charge of return all the new state availbles from the current state. Only make changes into the cell
+    with less values availables.
+
+    Returns:
+        A list with the posibles news state for the first position free of the sudoku
+
+    &#34;&#34;&#34;
+    new_sudoku = self._state.sudoku.__copy__()
+
+    new_sudoku = new_sudoku.remove_trivial_solution()
+    new_state = State(new_sudoku, self._state.g)
+
+    if new_sudoku is None:
+        return []
+    elif new_sudoku != self._state.sudoku:
+        return [new_state]
+
+    availables = new_sudoku.available
+    movements = []
+    pos = availables[0][0]
+    for p in availables[0][1]:
+        tmp_sudoku = new_sudoku.__copy__()
+        tmp_sudoku[pos] = p
+        tmp_state = State(tmp_sudoku, self._state.g)
+        movements.append(tmp_state)
+
+    return movements</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="sudoku_resolver.problem_definition.State"><code class="flex name class">
+<span>class <span class="ident">State</span></span>
+<span>(</span><span>sudoku: <a title="sudoku_resolver.problem_definition.Sudoku" href="#sudoku_resolver.problem_definition.Sudoku">Sudoku</a>, g: int = 0, h: int = 0)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class in charge of represent a state of the problem. It is prepare for its use in informed and uninformed search.
+Because that, it has a attribute h representing it heuristic.</p>
+<p>Attributes
+sudoku Each state has a problem. In this case, the problem is a Sudoku instance
+g: A int with the cost of the state
+h: A int with the result of the heuristic function used for this state</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sudoku</code></strong></dt>
+<dd>The sudoku of the state</dd>
+<dt><strong><code>g</code></strong></dt>
+<dd>the cost of this state</dd>
+<dt><strong><code>h</code></strong></dt>
+<dd>the heuristic of this state</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class State:
+    &#34;&#34;&#34;Class in charge of represent a state of the problem. It is prepare for its use in informed and uninformed search.
+    Because that, it has a attribute h representing it heuristic.
+
+    Attributes
+        sudoku Each state has a problem. In this case, the problem is a Sudoku instance
+        g: A int with the cost of the state
+        h: A int with the result of the heuristic function used for this state
+    &#34;&#34;&#34;
+
+    def __init__(self, sudoku: Sudoku, g: int = 0, h: int = 0):
+        &#34;&#34;&#34;
+        Args:
+            sudoku: The sudoku of the state
+            g: the cost of this state
+            h: the heuristic of this state
+        &#34;&#34;&#34;
+        self._sudoku = sudoku
+        self.g = g
+        self.h = h
+
+    def __eq__(self, other: &#39;State&#39;) -&gt; bool:
+        &#34;&#34;&#34;method in charge of compare two state by theirs sudokus
+
+        Args:
+            other: the other state to compare
+
+        Returns:
+            If both state have the same sudoku
+        &#34;&#34;&#34;
+        return self._sudoku == other.sudoku
+
+    def __copy__(self) -&gt; &#39;State&#39;:
+        &#34;&#34;&#34;Create a copy of the current state
+
+        Returns:
+            the copy of the state
+        &#34;&#34;&#34;
+        return State(self._sudoku, self.g, self.h)
+
+    def __hash__(self):
+        &#34;&#34;&#34;Overwrite the original method hash to allow store a State into a set. For that we use the hash of its sudoku
+
+        Returns:
+            The hash value of the board
+
+        &#34;&#34;&#34;
+        return hash(self._sudoku)
+
+    @property
+    def complete(self) -&gt; bool:
+        &#34;&#34;&#34;
+        Returns:
+            if the current state is final or not. For that check if the empty cells of the sudoku are 0
+        &#34;&#34;&#34;
+        return len(self.sudoku) == 0
+
+    @property
+    def sudoku(self) -&gt; Sudoku:
+        &#34;&#34;&#34;Getter of the Sudoku instance of the state
+
+        Returns:
+            the sudoku of the state
+        &#34;&#34;&#34;
+        return self._sudoku
+
+    @sudoku.setter
+    def sudoku(self, sudoku: Sudoku):
+        &#34;&#34;&#34;setter to update the sudoku
+
+        Args:
+            sudoku: the new sudoku
+        &#34;&#34;&#34;
+        self.sudoku = sudoku</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="sudoku_resolver.problem_definition.State.complete"><code class="name">var <span class="ident">complete</span> : bool</code></dt>
+<dd>
+<div class="desc"><h2 id="returns">Returns</h2>
+<p>if the current state is final or not. For that check if the empty cells of the sudoku are 0</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def complete(self) -&gt; bool:
+    &#34;&#34;&#34;
+    Returns:
+        if the current state is final or not. For that check if the empty cells of the sudoku are 0
+    &#34;&#34;&#34;
+    return len(self.sudoku) == 0</code></pre>
+</details>
+</dd>
+<dt id="sudoku_resolver.problem_definition.State.sudoku"><code class="name">var <span class="ident">sudoku</span> : <a title="sudoku_resolver.problem_definition.Sudoku" href="#sudoku_resolver.problem_definition.Sudoku">Sudoku</a></code></dt>
+<dd>
+<div class="desc"><p>Getter of the Sudoku instance of the state</p>
+<h2 id="returns">Returns</h2>
+<p>the sudoku of the state</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def sudoku(self) -&gt; Sudoku:
+    &#34;&#34;&#34;Getter of the Sudoku instance of the state
+
+    Returns:
+        the sudoku of the state
+    &#34;&#34;&#34;
+    return self._sudoku</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="sudoku_resolver.problem_definition.Sudoku"><code class="flex name class">
+<span>class <span class="ident">Sudoku</span></span>
+<span>(</span><span>matrix: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class in charge of represent a sudoku. It has the matrix with the numbers.</p>
+<p>Attributes
+matrix: A list[list[int]] with the matrix with the problem. The empty cells are represented as 0</p>
+<p>Default constructor. Create a copy of the matrix passed by parameter</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>matrix</code></strong></dt>
+<dd>A list[list[int]] with the board of the game.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If the board is not a square or If detect invalid number into the board.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Sudoku:
+    &#34;&#34;&#34;Class in charge of represent a sudoku. It has the matrix with the numbers.
+
+    Attributes
+            matrix: A list[list[int]] with the matrix with the problem. The empty cells are represented as 0
+    &#34;&#34;&#34;
+
+    def __init__(self, matrix: list[list[int]]):
+        &#34;&#34;&#34;Default constructor. Create a copy of the matrix passed by parameter
+
+        Args:
+            matrix: A list[list[int]] with the board of the game.
+
+        Raises:
+            ValueError: If the board is not a square or If detect invalid number into the board.
+        &#34;&#34;&#34;
+        self.matrix = []
+        for row in matrix:
+            if len(row) != len(matrix):
+                raise ValueError(&#34;The board must be a square&#34;)
+            self.matrix.append([])
+            for x in row:
+                if 0 &lt;= x &lt;= len(matrix):
+                    self.matrix[-1].append(x)
+                else:
+                    raise ValueError(&#34;The values must be a positive number fewer of the length of the board&#34;)
+
+    def __getitem__(self, key: tuple[int, int]) -&gt; int:
+        &#34;&#34;&#34;Method in charge of return the value into the cell especificate into the key parameter of the board
+
+        Args:
+            key: The position that want to know
+
+        Returns:
+            The value of this position
+
+        Raises:
+            IndexError: If get invalid cell or if the key does not have two position.
+        &#34;&#34;&#34;
+        if len(key) != 2:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+        i, j = key
+        if 0 &lt;= i &lt; 9 and 0 &lt;= j &lt; 9:
+            return self.matrix[i][j]
+        else:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+
+    def __setitem__(self, key: tuple[int, int], value: int) -&gt; None:
+        &#34;&#34;&#34;Method in charge of update the matrix
+        Args:
+            key: The position of the matrix that want to know. It must be a tuple of two position
+            value: The new value of this position
+        raises:
+            ValueError: If cant set this value on this position
+            IndexError If get invalid cell or if the key does not have two position.
+        &#34;&#34;&#34;
+        if len(key) != 2:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+        i, k = key
+        if 0 &lt;= i &lt; 9 and 0 &lt;= k &lt; 9:
+            if self.valid_position(i, k, value):
+                self.matrix[i][k] = value
+            else:
+                s = f&#34;Can not update the matrix with {value} on cell {(i, k)}&#34;
+                raise ValueError(s)
+        else:
+            raise IndexError(&#34;Invalid cell selected&#34;)
+
+    def __eq__(self, other: &#39;Sudoku&#39;) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of compare two sudokus. For that compare all the cells of both boards
+        Args:
+            other: Other instance of Sudoku&#39;s class  to be compared
+        Returns:
+            True if are equals otherwise False
+        &#34;&#34;&#34;
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                if self.matrix[i][j] != other.matrix[i][j]:
+                    return False
+        return True
+
+    def __copy__(self) -&gt; &#39;Sudoku&#39;:
+        &#34;&#34;&#34;Method in charge of return a copy of the current sudoku
+        Returns:
+            The copy of the current sudoku
+        &#34;&#34;&#34;
+        return Sudoku(self.matrix)
+
+    def __str__(self) -&gt; str:
+        &#34;&#34;&#34;Method in charge of represent as string the sudoku
+
+        Returns:
+            The sudoku representation
+        &#34;&#34;&#34;
+        return &#34;\n&#34;.join([&#34;|&#34;.join([str(x) for x in row]) for row in self.matrix])
+
+    def __len__(self) -&gt; int:
+        &#34;&#34;&#34;
+        Returns:
+            The number of empty cells of the board
+        &#34;&#34;&#34;
+        return len(list(self.empty_position))
+
+    def __hash__(self) -&gt; int:
+        &#34;&#34;&#34;Overwrite the original method hash to allow store a Sudoku into a set
+
+        Returns:
+            The hash value of the board
+
+        &#34;&#34;&#34;
+        return hash((tuple(x) for x in self.matrix))
+
+    def valid_position(self, i: int, j: int, value: int) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of check if the value can be set into the cell selected
+
+        Args:
+            i: the row to be check
+            j: the column to be check
+            value: the new value that want to update
+        &#34;&#34;&#34;
+        if self.matrix[i][j] != 0:
+            return False
+        for ii in range(len(self.matrix)):
+            for jj in range(len(self.matrix[ii])):
+                if i == ii and value == self.matrix[ii][jj]:
+                    return False
+                elif j == jj and value == self.matrix[ii][jj]:
+                    return False
+                elif get_sub_matrix(ii, jj) == get_sub_matrix(i, j) and value == self.matrix[ii][jj]:
+                    return False
+        return True
+
+    @property
+    def empty_position(self) -&gt; Generator[tuple[int, int], None, None]:
+        &#34;&#34;&#34;Generator of the empty cells for the board
+        Returns:
+            All the empty cells
+        &#34;&#34;&#34;
+        for i in range(len(self.matrix)):
+            for j in range(len(self.matrix[i])):
+                if self.matrix[i][j] == 0:
+                    yield i, j
+
+    @property
+    def available(self) -&gt; list[tuple[tuple[int, int], set]]:
+        &#34;&#34;&#34;bidimensional tuple with the positions free and the availables values of that position
+        order by the number of availables options on each cell
+
+        Returns:
+             The list with all the availables positions and his posibles values
+        &#34;&#34;&#34;
+        availables = []
+        for position in self.empty_position:
+            i, j = position
+            availables.append(((i, j), set()))
+            for k in range(1, 10):
+                if self.valid_position(i, j, k):
+                    availables[-1][1].add(k)
+        availables = sorted(availables, key=lambda x: len(x[1]))
+        return availables
+
+    def _remove_trivial_solution_l1(self, posibles: list[tuple[tuple[int, int], set]] = ()) -&gt; int:
+        &#34;&#34;&#34;Method in charge of set all the cells that only has one option available
+
+        Args:
+            posibles: the list with the cells and theirs options. If is empty, use the the list of the Sudoku
+        Returns:
+            A int indicate if there was some error or any changes on the matrix:
+                0 -&gt; Not changes
+                1 -&gt; changes
+                2 -&gt; Invalid sudoku
+        &#34;&#34;&#34;
+        error = 0
+
+        if not posibles:
+            posibles = self.available
+
+        for posible in posibles:
+            # break the for when the number of options are more than one
+            if len(posible[1]) == 1:
+                try:
+                    self[posible[0]] = posible[1].pop()
+                    error = 1
+                # If can not set the value, the current sudoku is invalid so return None to indicate that
+                except ValueError:
+                    error = 2
+                    break
+            else:
+                break
+        return error
+
+    def _remove_trivial_solution_l2(self, matrix: list[list[int]]) -&gt; bool:
+        &#34;&#34;&#34;Method in charge of set all the cell on that a value has its unique option to be set
+
+        Args:
+            matrix: the matrix to be update
+        Returns:
+            if the method change some cell
+        &#34;&#34;&#34;
+        diff = False
+        for value in range(1, len(matrix)):
+            # iter over all valid values
+            for i in range(len(matrix)):
+                # iter over the rows and check if the value is missing
+                if value not in matrix[i]:
+                    posibles = set()
+                    # iter over all the rows of the i cell and check if the value is valid
+                    for j in range(len(matrix[i])):
+                        if self.valid_position(i, j, value):
+                            posibles.add(j)
+                    # if in this row, there is only one valid position for the value, it must be correct and set it
+                    if len(posibles) == 1:
+                        j = posibles.pop()
+                        self[i, j] = value
+                        diff = True
+        return diff
+
+    def remove_trivial_solution(self) -&gt; Union[&#39;Sudoku&#39;, None]:
+        &#34;&#34;&#34;Method in charge of remove trivial solution trying to reduce the empty cells of the board.
+        For that use the private method _remove_trivial_solution_l2 and _remove_trivial_solution_l1 and call it while
+        there are some changes on the matrix
+
+        Returns:
+            The current sudoku after update it
+        &#34;&#34;&#34;
+        posibles = tuple(self.available)
+        old = len(posibles)
+        new = -1
+        while old != new:
+            l2 = self._remove_trivial_solution_l2(self.matrix)
+            transverse = [[self.matrix[j][i] for j in range(len(self.matrix))] for i in range(len(self.matrix[0]))]
+            l3 = self._remove_trivial_solution_l2(transverse)
+            l1 = self._remove_trivial_solution_l1(posibles)
+            if l1 == 2 and not l2 and not l3:
+                return None
+            posibles = self.available
+            old = new
+            new = len(posibles)
+        return self</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="sudoku_resolver.problem_definition.Sudoku.available"><code class="name">var <span class="ident">available</span> : list</code></dt>
+<dd>
+<div class="desc"><p>bidimensional tuple with the positions free and the availables values of that position
+order by the number of availables options on each cell</p>
+<h2 id="returns">Returns</h2>
+<p>The list with all the availables positions and his posibles values</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def available(self) -&gt; list[tuple[tuple[int, int], set]]:
+    &#34;&#34;&#34;bidimensional tuple with the positions free and the availables values of that position
+    order by the number of availables options on each cell
+
+    Returns:
+         The list with all the availables positions and his posibles values
+    &#34;&#34;&#34;
+    availables = []
+    for position in self.empty_position:
+        i, j = position
+        availables.append(((i, j), set()))
+        for k in range(1, 10):
+            if self.valid_position(i, j, k):
+                availables[-1][1].add(k)
+    availables = sorted(availables, key=lambda x: len(x[1]))
+    return availables</code></pre>
+</details>
+</dd>
+<dt id="sudoku_resolver.problem_definition.Sudoku.empty_position"><code class="name">var <span class="ident">empty_position</span> : Generator[tuple[int, int], None, None]</code></dt>
+<dd>
+<div class="desc"><p>Generator of the empty cells for the board</p>
+<h2 id="returns">Returns</h2>
+<p>All the empty cells</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def empty_position(self) -&gt; Generator[tuple[int, int], None, None]:
+    &#34;&#34;&#34;Generator of the empty cells for the board
+    Returns:
+        All the empty cells
+    &#34;&#34;&#34;
+    for i in range(len(self.matrix)):
+        for j in range(len(self.matrix[i])):
+            if self.matrix[i][j] == 0:
+                yield i, j</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="sudoku_resolver.problem_definition.Sudoku.remove_trivial_solution"><code class="name flex">
+<span>def <span class="ident">remove_trivial_solution</span></span>(<span>self) ‑> Optional[<a title="sudoku_resolver.problem_definition.Sudoku" href="#sudoku_resolver.problem_definition.Sudoku">Sudoku</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method in charge of remove trivial solution trying to reduce the empty cells of the board.
+For that use the private method _remove_trivial_solution_l2 and _remove_trivial_solution_l1 and call it while
+there are some changes on the matrix</p>
+<h2 id="returns">Returns</h2>
+<p>The current sudoku after update it</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def remove_trivial_solution(self) -&gt; Union[&#39;Sudoku&#39;, None]:
+    &#34;&#34;&#34;Method in charge of remove trivial solution trying to reduce the empty cells of the board.
+    For that use the private method _remove_trivial_solution_l2 and _remove_trivial_solution_l1 and call it while
+    there are some changes on the matrix
+
+    Returns:
+        The current sudoku after update it
+    &#34;&#34;&#34;
+    posibles = tuple(self.available)
+    old = len(posibles)
+    new = -1
+    while old != new:
+        l2 = self._remove_trivial_solution_l2(self.matrix)
+        transverse = [[self.matrix[j][i] for j in range(len(self.matrix))] for i in range(len(self.matrix[0]))]
+        l3 = self._remove_trivial_solution_l2(transverse)
+        l1 = self._remove_trivial_solution_l1(posibles)
+        if l1 == 2 and not l2 and not l3:
+            return None
+        posibles = self.available
+        old = new
+        new = len(posibles)
+    return self</code></pre>
+</details>
+</dd>
+<dt id="sudoku_resolver.problem_definition.Sudoku.valid_position"><code class="name flex">
+<span>def <span class="ident">valid_position</span></span>(<span>self, i: int, j: int, value: int) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method in charge of check if the value can be set into the cell selected</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>i</code></strong></dt>
+<dd>the row to be check</dd>
+<dt><strong><code>j</code></strong></dt>
+<dd>the column to be check</dd>
+<dt><strong><code>value</code></strong></dt>
+<dd>the new value that want to update</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def valid_position(self, i: int, j: int, value: int) -&gt; bool:
+    &#34;&#34;&#34;Method in charge of check if the value can be set into the cell selected
+
+    Args:
+        i: the row to be check
+        j: the column to be check
+        value: the new value that want to update
+    &#34;&#34;&#34;
+    if self.matrix[i][j] != 0:
+        return False
+    for ii in range(len(self.matrix)):
+        for jj in range(len(self.matrix[ii])):
+            if i == ii and value == self.matrix[ii][jj]:
+                return False
+            elif j == jj and value == self.matrix[ii][jj]:
+                return False
+            elif get_sub_matrix(ii, jj) == get_sub_matrix(i, j) and value == self.matrix[ii][jj]:
+                return False
+    return True</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="sudoku_resolver" href="index.html">sudoku_resolver</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="sudoku_resolver.problem_definition.get_sub_matrix" href="#sudoku_resolver.problem_definition.get_sub_matrix">get_sub_matrix</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="sudoku_resolver.problem_definition.Action" href="#sudoku_resolver.problem_definition.Action">Action</a></code></h4>
+<ul class="">
+<li><code><a title="sudoku_resolver.problem_definition.Action.get_successors" href="#sudoku_resolver.problem_definition.Action.get_successors">get_successors</a></code></li>
+<li><code><a title="sudoku_resolver.problem_definition.Action.state" href="#sudoku_resolver.problem_definition.Action.state">state</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="sudoku_resolver.problem_definition.State" href="#sudoku_resolver.problem_definition.State">State</a></code></h4>
+<ul class="">
+<li><code><a title="sudoku_resolver.problem_definition.State.complete" href="#sudoku_resolver.problem_definition.State.complete">complete</a></code></li>
+<li><code><a title="sudoku_resolver.problem_definition.State.sudoku" href="#sudoku_resolver.problem_definition.State.sudoku">sudoku</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="sudoku_resolver.problem_definition.Sudoku" href="#sudoku_resolver.problem_definition.Sudoku">Sudoku</a></code></h4>
+<ul class="">
+<li><code><a title="sudoku_resolver.problem_definition.Sudoku.available" href="#sudoku_resolver.problem_definition.Sudoku.available">available</a></code></li>
+<li><code><a title="sudoku_resolver.problem_definition.Sudoku.empty_position" href="#sudoku_resolver.problem_definition.Sudoku.empty_position">empty_position</a></code></li>
+<li><code><a title="sudoku_resolver.problem_definition.Sudoku.remove_trivial_solution" href="#sudoku_resolver.problem_definition.Sudoku.remove_trivial_solution">remove_trivial_solution</a></code></li>
+<li><code><a title="sudoku_resolver.problem_definition.Sudoku.valid_position" href="#sudoku_resolver.problem_definition.Sudoku.valid_position">valid_position</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
