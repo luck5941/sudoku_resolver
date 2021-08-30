@@ -1,3 +1,5 @@
+from typing import Union
+
 import problem_definition as pd
 
 
@@ -52,7 +54,7 @@ class Stack:
         self.length += 1
         return self.length
 
-    def pop(self) -> pd.State:
+    def pop(self) -> Union[pd.State, None]:
         """Method in charge of get the last inserted element of the stack and update the length of the stack
         If the stack is empty return None
         Returns

@@ -4,19 +4,19 @@ from sys import argv
 
 import problem_definition as pd
 import utils
-import algorith
+import algorithm
 
 if __name__ == '__main__':
     if len(argv) < 2:
         name = argv[0]
         s = f"Error: use {name} <fileName> where fileName is the file with the sudoku you want to resolve\n"
-        utils.perror(s)
+        utils.p_error(s)
         exit(-1)
 
     i_sudoku = pd.Sudoku(utils.read_sudoku(argv[1]))
     print(i_sudoku)
     i_state = pd.State(i_sudoku)
-    dfs = algorith.DFS(i_state, len(i_sudoku)+1)
+    dfs = algorithm.DFS(i_state, len(i_sudoku) + 1)
     start_time = datetime.datetime.now()
     print(start_time)
     final_state = dfs.start(slow_approach=False, increment=1)

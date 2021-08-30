@@ -1,3 +1,5 @@
+from typing import Union
+
 from aux_structure import Stack
 import problem_definition as pd
 
@@ -18,7 +20,8 @@ class DFS:
             max_depth: A int with the max cost of the state that can has the result of the problem
 
         Raises:
-            ValueError: if the max_depth is invalid or if the initial state not match with the api especificate into problem_definition
+            ValueError: if the max_depth is invalid or if the initial state not match with the api
+            especificate into problem_definition
         """
         self.initial_state = initial_state
         self.max_depth = max_depth
@@ -36,6 +39,7 @@ class DFS:
         """Method in charge of start the algorithm.
         If slow_approach is set as True, the algorithm take a iterative DFS with increment parameter
         representing increase of the max_depth in each iteration
+
         Args:
             slow_approach: A bool. If True, then the algorithm is incremental DFS.
             increment: A int with the steps of increase the max_depth.
@@ -57,7 +61,7 @@ class DFS:
                     break
         return result
 
-    def __start(self, max_depth: int) -> pd.State:
+    def __start(self, max_depth: int) -> Union[pd.State, None]:
         """Private method with the logic of the DFS algorithm
 
         Args:
@@ -85,6 +89,3 @@ class DFS:
                     self.stack.append(posible_state)
 
         return final_state
-
-
-
